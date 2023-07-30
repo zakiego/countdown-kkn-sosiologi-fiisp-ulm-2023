@@ -102,9 +102,9 @@ export default function Home({ today, startDate, endDate }: Props) {
                     <Unit unit="Menit" value={timeLeft?.minutes} />
                     <Unit unit="Detik" value={timeLeft?.seconds} />
                   </div>
-                  <div className="overflow-hidden rounded-full bg-gray-200 mt-10 max-w-xs mx-auto">
+                  <div className="rounded-full overflow-hidden bg-gray-200 mt-10 max-w-xs mx-auto">
                     <div
-                      className="h-2 rounded-full bg-gradient-to-r from-orange-800 to-orange-400"
+                      className="h-2 bg-gradient-to-r from-orange-800 to-orange-400"
                       style={{
                         width: `${percentage}%`,
                       }}
