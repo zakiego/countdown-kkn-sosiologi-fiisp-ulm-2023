@@ -7,22 +7,34 @@ import Balancer from "react-wrap-balancer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const getStaticProps = async () => {
+  const startDate = new Date("2023-07-16");
   const endDate = new Date("2023-08-21");
+  const today = new Date();
 
+  const todayGmtPlus8 = new Date(today.getTime() - 8 * 60 * 60 * 1000);
+  const startDateGmtPlus8 = new Date(startDate.getTime() - 8 * 60 * 60 * 1000);
   const endDateGmtPlus8 = new Date(endDate.getTime() - 8 * 60 * 60 * 1000);
 
   return {
     props: {
+      today: todayGmtPlus8,
+      startDate: startDateGmtPlus8,
       endDate: endDateGmtPlus8,
     },
   };
 };
 
 interface Props {
+  today: Date;
+  startDate: Date;
   endDate: Date;
 }
 
-export default function Home({ endDate }: Props) {
+export default function Home({ today, startDate, endDate }: Props) {
+  const totalDuration = endDate.getTime() - startDate.getTime();
+  const timePassed = today.getTime() - startDate.getTime();
+  const percentage = (timePassed / totalDuration) * 100;
+
   const calculateTimeLeft = () => {
     const difference = +endDate - +new Date();
 
@@ -76,22 +88,31 @@ export default function Home({ endDate }: Props) {
       </Head>
       <div className={`${inter.className}`}>
         <div className="mx-auto">
-          <div className="relative isolate overflow-hidden bg-gray-900 py-24 text-center min-h-screen flex justify-center items-center">
+          <div className="relative isolate overflow-hidden bg-gray-900 py-24 text-center min-h-screen flex justify-center md:items-center">
             <div>
               <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                 <Balancer>KKN SOSIOLOGI FISIP ULM 2023</Balancer>
               </h2>
 
-              <div className="grid md:flex md:gap-x-10 md:justify-between mt-14 grid-rows-2 grid-flow-col gap-y-8 md:gap-0">
-                {timeLeft && (
-                  <>
+              {timeLeft && (
+                <>
+                  <div className="grid md:flex md:gap-x-10 md:justify-between mt-14 grid-rows-2 grid-flow-col gap-y-8 md:gap-0">
                     <Unit unit="Hari" value={timeLeft?.days} />
                     <Unit unit="Jam" value={timeLeft?.hours} />
                     <Unit unit="Menit" value={timeLeft?.minutes} />
                     <Unit unit="Detik" value={timeLeft?.seconds} />
-                  </>
-                )}
-              </div>
+                  </div>
+                  <div className="overflow-hidden rounded-full bg-gray-200 mt-10 max-w-xs mx-auto">
+                    <div
+                      className="h-2 rounded-full bg-gradient-to-r from-orange-800 to-orange-400"
+                      style={{
+                        width: `${percentage}%`,
+                      }}
+                    />
+                  </div>
+                  <p className="mt-2">{percentage.toFixed(0)}%</p>
+                </>
+              )}
 
               <svg
                 viewBox="0 0 1024 1024"
