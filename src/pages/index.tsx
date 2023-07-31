@@ -68,10 +68,20 @@ export default function Home({ today, startDate, endDate }: Props) {
     return () => clearTimeout(timer);
   });
 
-  const Unit = ({ unit, value }: { unit: string; value: string }) => {
+  const Unit = ({
+    unit,
+    value,
+    className,
+  }: {
+    unit: string;
+    value: string;
+    className?: string;
+  }) => {
     return (
       <div>
-        <h3 className={`text-7xl font-extrabold tabular-nums}`}>{value}</h3>
+        <h3 className={`text-7xl font-extrabold tabular-nums ${className}`}>
+          {value}
+        </h3>
         <p className="mt-2 font-light">{unit}</p>
       </div>
     );
@@ -100,7 +110,11 @@ export default function Home({ today, startDate, endDate }: Props) {
                     <Unit unit="Hari" value={timeLeft?.days} />
                     <Unit unit="Jam" value={timeLeft?.hours} />
                     <Unit unit="Menit" value={timeLeft?.minutes} />
-                    <Unit unit="Detik" value={timeLeft?.seconds} />
+                    <Unit
+                      unit="Detik"
+                      value={timeLeft?.seconds}
+                      className="text-orange-500"
+                    />
                   </div>
                   <div className="rounded-full overflow-hidden bg-gray-200 mt-10 max-w-xs mx-auto">
                     <div
@@ -110,7 +124,7 @@ export default function Home({ today, startDate, endDate }: Props) {
                       }}
                     />
                   </div>
-                  <p className="mt-2">{percentage.toFixed(0)}%</p>
+                  <p className="mt-2">{percentage.toFixed(2)}%</p>
                 </>
               )}
 
