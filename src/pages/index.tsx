@@ -33,7 +33,13 @@ interface Props {
 export default function Home({ today, startDate, endDate }: Props) {
   const totalDuration = endDate.getTime() - startDate.getTime();
   const timePassed = today.getTime() - startDate.getTime();
-  const percentage = (timePassed / totalDuration) * 100;
+
+  const [percentage, setPercentage] = useState<number>();
+
+  useEffect(() => {
+    setPercentage((timePassed / totalDuration) * 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const calculateTimeLeft = () => {
     const difference = +endDate - +new Date();
@@ -57,7 +63,7 @@ export default function Home({ today, startDate, endDate }: Props) {
     return undefined;
   };
 
-  let [timeLeft, setTimeLeft] =
+  const [timeLeft, setTimeLeft] =
     useState<ReturnType<typeof calculateTimeLeft>>();
 
   useEffect(() => {
@@ -124,7 +130,7 @@ export default function Home({ today, startDate, endDate }: Props) {
                       }}
                     />
                   </div>
-                  <p className="mt-2">{percentage.toFixed(2)}%</p>
+                  <p className="mt-2">{percentage?.toFixed(2)}%</p>
                 </>
               )}
 
