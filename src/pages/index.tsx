@@ -9,15 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 export const getStaticProps = async () => {
   const startDate = new Date("2023-07-16");
   const endDate = new Date("2023-08-21");
-  const today = new Date();
 
-  const todayGmtPlus8 = new Date(today.getTime() - 8 * 60 * 60 * 1000);
   const startDateGmtPlus8 = new Date(startDate.getTime() - 8 * 60 * 60 * 1000);
   const endDateGmtPlus8 = new Date(endDate.getTime() - 8 * 60 * 60 * 1000);
 
   return {
     props: {
-      today: todayGmtPlus8,
       startDate: startDateGmtPlus8,
       endDate: endDateGmtPlus8,
     },
@@ -25,12 +22,12 @@ export const getStaticProps = async () => {
 };
 
 interface Props {
-  today: Date;
   startDate: Date;
   endDate: Date;
 }
 
-export default function Home({ today, startDate, endDate }: Props) {
+export default function Home({ startDate, endDate }: Props) {
+  const today = new Date();
   const totalDuration = endDate.getTime() - startDate.getTime();
   const timePassed = today.getTime() - startDate.getTime();
 
