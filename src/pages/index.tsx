@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { HTMLAttributes, useEffect, useState } from "react";
 import Head from "next/head";
 import Balancer from "react-wrap-balancer";
-
+import { match } from "ts-pattern";
 const inter = Inter({ subsets: ["latin"] });
 
 export const getStaticProps = async () => {
@@ -54,10 +54,13 @@ export default function Home({ startDate, endDate }: Props) {
         hours: twoDigit(hours),
         minutes: twoDigit(minutes),
         seconds: twoDigit(seconds),
+        end: false,
       };
     }
 
-    return undefined;
+    return {
+      end: true,
+    };
   };
 
   const [timeLeft, setTimeLeft] =
@@ -77,7 +80,7 @@ export default function Home({ startDate, endDate }: Props) {
     className,
   }: {
     unit: string;
-    value: string;
+    value: string | undefined;
     className?: string;
   }) => {
     return (
@@ -107,43 +110,46 @@ export default function Home({ startDate, endDate }: Props) {
                 <Balancer>KKN SOSIOLOGI FISIP ULM 2023</Balancer>
               </h2>
 
-              {timeLeft && (
-                <>
-                  <div className="grid md:flex md:gap-x-10 md:justify-between mt-14 grid-rows-2 grid-flow-col gap-y-8 md:gap-0">
-                    <Unit unit="Hari" value={timeLeft?.days} />
-                    <Unit unit="Jam" value={timeLeft?.hours} />
-                    <Unit unit="Menit" value={timeLeft?.minutes} />
-                    <Unit
-                      unit="Detik"
-                      value={timeLeft?.seconds}
-                      className="text-orange-500"
-                    />
+              {match(timeLeft?.end)
+                .with(false, () => (
+                  <>
+                    <div className="grid md:flex md:gap-x-10 md:justify-between mt-14 grid-rows-2 grid-flow-col gap-y-8 md:gap-0">
+                      <Unit unit="Hari" value={timeLeft?.days} />
+                      <Unit unit="Jam" value={timeLeft?.hours} />
+                      <Unit unit="Menit" value={timeLeft?.minutes} />
+                      <Unit
+                        unit="Detik"
+                        value={timeLeft?.seconds}
+                        className="text-orange-500"
+                      />
+                    </div>
+                    <div className="rounded-full overflow-hidden bg-gray-200 mt-10 max-w-xs mx-auto">
+                      <div
+                        className="h-2 bg-gradient-to-r from-orange-800 to-orange-400"
+                        style={{
+                          width: `${percentage}%`,
+                        }}
+                      />
+                    </div>
+                    <p className="mt-2">{percentage?.toFixed(2)}%</p>
+                  </>
+                ))
+                .with(true, () => (
+                  <div className="mt-14 opacity-80">
+                    <p>
+                      <Balancer>KKN telah selesai dilaksanakan.</Balancer>
+                    </p>
+                    <p>
+                      <Balancer>
+                        Terima kasih untuk kebersamaan selama 37 hari di desa.
+                      </Balancer>
+                    </p>
+                    <p>{":)"}</p>
                   </div>
-                  <div className="rounded-full overflow-hidden bg-gray-200 mt-10 max-w-xs mx-auto">
-                    <div
-                      className="h-2 bg-gradient-to-r from-orange-800 to-orange-400"
-                      style={{
-                        width: `${percentage}%`,
-                      }}
-                    />
-                  </div>
-                  <p className="mt-2">{percentage?.toFixed(2)}%</p>
-                </>
-              )}
-
-              {timeLeft === undefined && (
-                <div className="mt-14 opacity-80">
-                  <p>
-                    <Balancer>KKN telah selesai dilaksanakan.</Balancer>
-                  </p>
-                  <p>
-                    <Balancer>
-                      Terima kasih untuk kebersamaan selama 37 hari di desa.
-                    </Balancer>
-                  </p>
-                  <p>:)</p>
-                </div>
-              )}
+                ))
+                .otherwise(() => (
+                  <div />
+                ))}
 
               <svg
                 viewBox="0 0 1024 1024"
