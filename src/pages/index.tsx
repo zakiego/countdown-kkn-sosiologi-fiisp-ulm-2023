@@ -131,6 +131,20 @@ export default function Home({ startDate, endDate }: Props) {
                 </>
               )}
 
+              {timeLeft === undefined && (
+                <div className="mt-14 opacity-80">
+                  <p>
+                    <Balancer>KKN telah selesai dilaksanakan.</Balancer>
+                  </p>
+                  <p>
+                    <Balancer>
+                      Terima kasih untuk kebersamaan selama 37 hari di desa.
+                    </Balancer>
+                  </p>
+                  <p>:)</p>
+                </div>
+              )}
+
               <svg
                 viewBox="0 0 1024 1024"
                 className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
