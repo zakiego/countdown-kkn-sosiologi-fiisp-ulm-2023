@@ -165,6 +165,19 @@ export default function Home({ startDate, endDate }: Props) {
                   <div />
                 ))}
 
+              <div className="text-xs mt-10 opacity-50">
+                <p>This is a demo website for KKN SOSIOLOGI FISIP ULM 2023</p>
+                <p className="mt-2">
+                  View Github Repository{" "}
+                  <a
+                    href="https://github.com/zakiego/countdown-kkn-sosiologi-fisip-ulm-2023"
+                    className="text-orange-500"
+                  >
+                    here
+                  </a>
+                </p>
+              </div>
+
               <svg
                 viewBox="0 0 1024 1024"
                 className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
