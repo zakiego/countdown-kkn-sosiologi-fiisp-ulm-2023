@@ -6,7 +6,7 @@ import Balancer from "react-wrap-balancer";
 import { match } from "ts-pattern";
 const inter = Inter({ subsets: ["latin"] });
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const next7Days = () => {
     const today = new Date();
     const next = new Date();
